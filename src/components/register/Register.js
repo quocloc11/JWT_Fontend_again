@@ -1,6 +1,7 @@
 import './Register.scss'
 import { useHistory } from "react-router-dom"
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 
 const Register = (props) => {
@@ -20,7 +21,34 @@ const Register = (props) => {
         })
     }, [])
 
+    const isValidInputs = () => {
+        if (!email) {
+            toast.error("Email is required")
+            return false
+        }
+        if (!phone) {
+            toast.error("Phone is required")
+            return false
+        }
+        if (!password) {
+            toast.error("Password is required")
+            return false
+        }
+        if (password != cofirmPassword) {
+            toast.error('Your password is not the sam')
+            return false
+        }
+        let regx = /\S+@\S+\.\S+/;
+
+        if (!regx.test(email)) {
+            toast.error("please enter a vailid email address")
+            return false
+        }
+        return true
+    }
+
     const handleRegister = () => {
+        let check = isValidInputs()
         let userData = { email, phone, username, password }
         console.log('check', userData)
     }
@@ -71,7 +99,7 @@ const Register = (props) => {
                         </div>
                         <div className='form-group'>
                             <label>Re-enter password:</label>
-                            <input type="text" className='form-control' placeholder='Re-enter password '
+                            <input type="password" className='form-control' placeholder='Re-enter password '
                                 value={cofirmPassword} onChange={(event) => setConfirmPassword(event.target.value)}
 
                             />
@@ -80,7 +108,6 @@ const Register = (props) => {
                             onClick={() => handleRegister()}>
                             Register
                         </button>
-
                         <hr />
                         <div className='text-center'>
                             <button className='btn btn-success' onClick={() => handleLogin()}>
