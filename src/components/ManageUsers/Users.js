@@ -3,7 +3,7 @@ import { fetchAllUser, deleteUser } from '../../services/userService'
 import ReactPaginate from 'react-paginate'
 import { toast } from "react-toastify"
 import ModalDelete from "./ModalDelete"
-
+import ModalUser from "./ModalUsers"
 const Users = (props) => {
     const [listUsers, setListUsers] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -123,6 +123,9 @@ const Users = (props) => {
                                 containerClassName="pagination"
                                 activeClassName="active"
                                 renderOnZeroPageCount={null}
+                            />
+                            <ModalUser
+                                title={"Create new user"}
                             />
                         </div>
                     }
