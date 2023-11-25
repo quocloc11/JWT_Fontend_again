@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate'
 import { toast } from "react-toastify"
 import ModalDelete from "./ModalDelete"
 import ModalUser from "./ModalUsers"
+import './Users.scss'
 const Users = (props) => {
     const [listUsers, setListUsers] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -66,22 +67,30 @@ const Users = (props) => {
         setIsShowModalUser(true)
         setDataModalUser(user)
     }
+    const handleRefresh = async () => {
+        await fetchUsers()
+
+    }
     return (
         <>
             <div className="container">
 
                 <div className="manage-users-container">
                     <div className="user-header">
-                        <div>
-                            <h3>Table Users</h3>
+                        <div className="title mt-3">
+                            <h3>Manage Users</h3>
                         </div>
-                        <div className="actions">
-                            <button className="btn btn-success">Refesh</button>
+                        <div className="actions my-3">
+                            <button className="btn btn-success refresh"
+                                onClick={() => handleRefresh()}
+                            ><i className="fa fa-refresh" ></i>Refesh</button>
                             <button className="btn btn-primary"
                                 onClick={() => {
                                     setIsShowModalUser(true);
                                     setActionModalUser("CREATE")
-                                }}>Add new user</button>
+                                }}>
+                                <i className="fa fa-plus-circle"></i>
+                                Add new user</button>
                         </div>
                     </div>
                     <div className="user-body">
@@ -108,13 +117,15 @@ const Users = (props) => {
                                                     <td>{item.username}</td>
                                                     <td>{item.Group ? item.Group.name : ''}</td>
                                                     <tb>
-                                                        <button className="btn btn-warning mx-3"
+                                                        <span title="Edit" className="edit "
                                                             onClick={() => handleEditUser(item)}
 
-                                                        >Edit</button>
-                                                        <button className="btn btn-danger"
+                                                        >
+                                                            <i className="fa fa-pencil"></i>
+                                                        </span>
+                                                        <span title="Delete" className="delete"
                                                             onClick={() => handleDelete(item)}
-                                                        >Delete</button>
+                                                        ><i className="fa fa-trash-o"></i></span>
                                                     </tb>
                                                 </tr>
                                             )
