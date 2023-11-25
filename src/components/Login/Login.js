@@ -31,7 +31,7 @@ const Login = (props) => {
             return;
         }
         let response = await loginUser(valueLogin, password)
-        if (response && response.data && +response.data.EC === 0) {
+        if (response && +response.EC === 0) {
             let data = {
                 isAuthenticated: true,
                 token: 'fake token'
@@ -43,8 +43,8 @@ const Login = (props) => {
 
         }
 
-        if (response && response.data && +response.data.EC !== 0) {
-            toast.error(response.data.EM)
+        if (response && +response.EC !== 0) {
+            toast.error(response.EM)
         }
         console.log("check", response.data)
     }

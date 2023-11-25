@@ -25,10 +25,11 @@ const Users = (props) => {
 
     const fetchUsers = async () => {
         let response = await fetchAllUser(currentPage, currentLimit)
-        if (response && response.data && response.data.EC === 0) {
-            //setListUsers(response.data.DT)
-            setTotalPages(response.data.DT.totalPage)
-            setListUsers(response.data.DT.users)
+
+        if (response && response.EC === 0) {
+            //setListUsers(response.DT)
+            setTotalPages(response.DT.totalPage)
+            setListUsers(response.DT.users)
 
         }
     }
@@ -47,13 +48,13 @@ const Users = (props) => {
     }
     const confirmDeleteUser = async () => {
         let reponse = await deleteUser(dataModal)
-        if (reponse && reponse.data.EC === 0) {
-            toast.success(reponse.data.EM)
+        if (reponse && reponse.EC === 0) {
+            toast.success(reponse.EM)
             await fetchUsers()
             setIsShowModalDelete(false)
 
         } else {
-            toast.error(reponse.data.EM)
+            toast.error(reponse.EM)
         }
     }
     const onHideModalUser = async () => {
@@ -116,7 +117,7 @@ const Users = (props) => {
                                                     <td>{item.email}</td>
                                                     <td>{item.username}</td>
                                                     <td>{item.Group ? item.Group.name : ''}</td>
-                                                    <tb>
+                                                    <td>
                                                         <span title="Edit" className="edit "
                                                             onClick={() => handleEditUser(item)}
 
@@ -126,7 +127,7 @@ const Users = (props) => {
                                                         <span title="Delete" className="delete"
                                                             onClick={() => handleDelete(item)}
                                                         ><i className="fa fa-trash-o"></i></span>
-                                                    </tb>
+                                                    </td>
                                                 </tr>
                                             )
                                         })}
