@@ -41,7 +41,7 @@ const UserProvider = ({ children }) => {
     }
     useEffect(() => {
         fetchUser()
-    })
+    }, [])
     return (
         <UserContext.Provider value={{ user, loginContext, logout }}>
             {children}
