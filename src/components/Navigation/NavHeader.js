@@ -56,8 +56,8 @@ const NavHeader = (props) => {
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">
                                     <NavLink to="/" exact className="nav-link">Home</NavLink>
-
                                     <NavLink to="/users" exact className="nav-link">Users</NavLink>
+                                    <NavLink to="/roles" exact className="nav-link">Roles</NavLink>
                                     <NavLink to="/projects" exact className="nav-link">Projects</NavLink>
                                     <NavLink to="/about" exact className="nav-link">About</NavLink>
                                 </Nav>
