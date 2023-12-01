@@ -41,7 +41,7 @@ const Login = (props) => {
             let data = {
                 isAuthenticated: true,
                 token,
-                acccount: { groupWithRoles, email, username }
+                account: { groupWithRoles, email, username }
             }
             localStorage.setItem('jwt', token)
             loginContext(data)

@@ -1,15 +1,32 @@
 import React, { useEffect, useState, useContext } from 'react';
 import './Nav.scss'
-import { NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation, useHistory } from 'react-router-dom'
 import { UserContext } from '../../context/UserContext'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from '../../logo.png'
+import { toast } from 'react-toastify'
+
+import { logoutUser } from '../../services/userService'
 const NavHeader = (props) => {
-    const { user } = useContext(UserContext)
+    const { user, logoutContext } = useContext(UserContext)
     const location = useLocation()
+    const history = useHistory()
+
+    const handleLogout = async () => {
+        let data = await logoutUser()//clear cooikie
+        localStorage.removeItem('jwt')//clear local storage
+        logoutContext()//clear user in context
+        if (data && +data.EC === 0) {
+            toast.success("Log out succeeds...")
+            history.push("/login")
+        } else {
+            toast.error(data.EM)
+        }
+
+    }
     if (user && user.isAuthenticated === true || location.pathname === '/') {
         return (
             <>
@@ -44,16 +61,33 @@ const NavHeader = (props) => {
                                     <NavLink to="/projects" exact className="nav-link">Projects</NavLink>
                                     <NavLink to="/about" exact className="nav-link">About</NavLink>
                                 </Nav>
+                                {user && user.isAuthenticated === true
+                                    ?
+                                    <>
+
+                                        <Nav.Item className='nav-link'>
+                                            Welcome {user.account.username} !
+                                        </Nav.Item>
+
+                                        <NavDropdown title="Settings" id="basic-nav-dropdown">
+                                            <NavDropdown.Item>Change Password</NavDropdown.Item>
+
+                                            <NavDropdown.Item >
+                                                <span onClick={() => handleLogout()}>Log Out</span>
+                                            </NavDropdown.Item>
+
+                                        </NavDropdown>
+
+
+                                    </>
+                                    :
+                                    <Link className='nav-link' to='/login'>
+                                        Login
+                                    </Link>
+                                }
                                 <Nav>
-                                    <Nav.Item className='nav-link'>
-                                        Welcome QuocLoc
-                                    </Nav.Item>
-                                    <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                        <NavDropdown.Item href="#action/3.1">Change Password</NavDropdown.Item>
 
-                                        <NavDropdown.Item href="#action/3.3">Log Out</NavDropdown.Item>
 
-                                    </NavDropdown>
                                 </Nav>
                             </Navbar.Collapse>
                         </Container>

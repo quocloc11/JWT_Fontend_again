@@ -19,11 +19,9 @@ const UserProvider = ({ children }) => {
     };
 
     // Logout updates the user data to default
-    const logout = () => {
-        setUser((user) => ({
-            name: '',
-            auth: false,
-        }));
+    const logoutContext = () => {
+        setUser({ ...userDefault, isLoading: false })
+
     };
     const fetchUser = async () => {
         let response = await getUserAccount()
@@ -36,7 +34,7 @@ const UserProvider = ({ children }) => {
             let data = {
                 isAuthenticated: true,
                 token,
-                acccount: { groupWithRoles, email, username },
+                account: { groupWithRoles, email, username },
                 isLoading: false
             }
             setUser(data)
@@ -46,12 +44,15 @@ const UserProvider = ({ children }) => {
     }
     useEffect(() => {
         console.log(window.location)
-        if (window.location.pathname !== '/' || window.location.pathname !== '/login') {
+        if (window.location.pathname !== '/' && window.location.pathname !== '/login') {
             fetchUser()
+        } else {
+            setUser({ ...user, isLoading: false })
+
         }
     }, [])
     return (
-        <UserContext.Provider value={{ user, loginContext, logout }}>
+        <UserContext.Provider value={{ user, loginContext, logoutContext }}>
             {children}
         </UserContext.Provider>
     );
